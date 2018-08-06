@@ -11,9 +11,10 @@
 namespace EagleEye::utils
 {
 
-void _concat_strs(std::stringstream& stream)
+template <typename T>
+void _concat_strs(std::stringstream& stream, T arg)
 {
-
+    stream << arg;
 }
 
 template <typename T, typename... Args>

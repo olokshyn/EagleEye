@@ -7,7 +7,9 @@ include_directories(lib)
 
 file(GLOB LIB_SOURCES
         lib/*.cpp
-        lib/*.hpp)
+        lib/*.hpp
+        lib/parsers/*.cpp
+        lib/parsers/*.hpp)
 add_library(${PROJECT_NAME}Lib ${LIB_SOURCES})
 
 add_executable(${PROJECT_NAME} main.cpp)

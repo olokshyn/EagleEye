@@ -11,14 +11,14 @@
 using namespace EagleEye;
 
 LogsManager::LogsManager(std::istream& in, const EagleEye::IFormatParser& format_parser,
-                         size_t log_entries_hint)
+                         const log_level_parser_t& log_level_parser, size_t log_entries_hint)
 {
     m_entries.reserve(log_entries_hint);
 
     std::string line;
     while (std::getline(in, line))
     {
-        m_entries.push_back(format_parser.parse_line(line));
+        m_entries.push_back(format_parser.parse_line(line, log_level_parser));
     }
 }
 
@@ -45,4 +45,13 @@ LogsManager LogsManager::filtered(const EagleEye::log_filter_t& filter) const
     std::copy_if(m_entries.begin(), m_entries.end(),
                  std::back_inserter(filtered_entries), filter);
     return LogsManager(std::move(filtered_entries));
+}
+
+std::ostream& EagleEye::operator<<(std::ostream& stream, const LogsManager& manager)
+{
+    for (const auto& entry : manager.entries())
+    {
+        stream << entry << std::endl;
+    }
+    return stream;
 }

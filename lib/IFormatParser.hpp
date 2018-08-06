@@ -8,6 +8,7 @@
 #include <string>
 
 #include "LogEntry.hpp"
+#include "LogLevel.hpp"
 
 namespace EagleEye
 {
@@ -17,7 +18,8 @@ class IFormatParser
 public:
     virtual ~IFormatParser() = default;
 
-    virtual LogEntry parse_line(const std::string& line) const = 0;
+    virtual LogEntry parse_line(const std::string& line,
+                                const log_level_parser_t& log_level_parser) const = 0;
 };
 
 }

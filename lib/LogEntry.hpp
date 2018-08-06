@@ -5,6 +5,7 @@
 #ifndef EAGLEEYE_LOGENTRY_HPP
 #define EAGLEEYE_LOGENTRY_HPP
 
+#include <iosfwd>
 #include <string>
 #include <chrono>
 
@@ -19,6 +20,8 @@ struct LogEntry
     std::chrono::time_point<std::chrono::system_clock> date;
     std::string message;
 };
+
+std::ostream& operator<<(std::ostream& stream, const LogEntry& entry);
 
 }
 
