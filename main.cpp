@@ -22,7 +22,8 @@ int main()
         LogsManager manager(stream, PythonFormatParser());
         std::cout << manager << std::endl;
 
-        std::cout << manager.filtered(build_level_filter(LogLevel::warning)) << std::endl;
+        std::cout << manager.filtered(filters::by_level(LogLevel::warning)) << std::endl;
+        std::cout << manager.sorted(sorters::by_level) << std::endl;
 
         return 0;
     }

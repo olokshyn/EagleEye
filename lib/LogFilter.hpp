@@ -10,12 +10,12 @@
 #include "LogEntry.hpp"
 #include "LogLevel.hpp"
 
-namespace EagleEye
+namespace EagleEye::filters
 {
 
 typedef std::function<bool(const LogEntry&)> log_filter_t;
 
-log_filter_t build_level_filter(LogLevel level);
+log_filter_t by_level(LogLevel level);
 
 }
 

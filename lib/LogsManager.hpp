@@ -10,6 +10,7 @@
 #include "LogEntry.hpp"
 #include "IFormatParser.hpp"
 #include "LogFilter.hpp"
+#include "LogSorter.hpp"
 
 namespace EagleEye
 {
@@ -28,8 +29,11 @@ public:
 
     const std::vector<LogEntry>& entries() const;
 
-    void filter(const log_filter_t& filter);
-    LogsManager filtered(const log_filter_t& filter) const;
+    void filter(const filters::log_filter_t& filter);
+    LogsManager filtered(const filters::log_filter_t& filter) const;
+
+    void sort(const sorters::log_sorter_t& sorter);
+    LogsManager sorted(const sorters::log_sorter_t& sorter) const;
 
 private:
     std::vector<LogEntry> m_entries;

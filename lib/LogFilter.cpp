@@ -4,9 +4,9 @@
 
 #include "LogFilter.hpp"
 
-using namespace EagleEye;
+using namespace EagleEye::filters;
 
-log_filter_t EagleEye::build_level_filter(LogLevel level)
+log_filter_t EagleEye::filters::by_level(LogLevel level)
 {
     return [level](const LogEntry& entry) -> bool
     {
