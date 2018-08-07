@@ -24,7 +24,7 @@ log_filter_t EagleEye::filters::by_level_exact(LogLevel level)
     };
 }
 
-log_filter_t EagleEye::filters::by_date_time_ge(const utils::date_time_t& date_time)
+log_filter_t EagleEye::filters::by_date_time_ge(const date_time::date_time_t& date_time)
 {
     return [date_time](const LogEntry& entry) -> bool
     {
@@ -32,7 +32,7 @@ log_filter_t EagleEye::filters::by_date_time_ge(const utils::date_time_t& date_t
     };
 }
 
-log_filter_t EagleEye::filters::by_date_time_le(const utils::date_time_t& date_time)
+log_filter_t EagleEye::filters::by_date_time_le(const date_time::date_time_t& date_time)
 {
     return [date_time](const LogEntry& entry) -> bool
     {

@@ -10,8 +10,7 @@
 #include <chrono>
 
 #include "LogLevel.hpp"
-
-#include "Utils.hpp"
+#include "DateTime.hpp"
 
 namespace EagleEye
 {
@@ -19,7 +18,7 @@ namespace EagleEye
 struct LogEntry
 {
     LogLevel level;
-    utils::date_time_t date_time = utils::date_time_t::empty();
+    date_time::date_time_t date_time;
     std::string message;
 };
 
