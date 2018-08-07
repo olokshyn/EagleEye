@@ -10,6 +10,5 @@
 
 std::ostream& EagleEye::operator<<(std::ostream& stream, const LogEntry& entry)
 {
-    using utils::operator<<;
     return stream << entry.date_time << " " << entry.level << " " << entry.message;
 }

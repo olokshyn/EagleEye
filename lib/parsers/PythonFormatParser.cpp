@@ -16,7 +16,7 @@ LogEntry PythonFormatParser::parse_line(const std::string& line,
     LogEntry entry;
 
     std::stringstream stream(line);
-    entry.date_time = utils::date_time_from_stream(stream);
+    entry.date_time = utils::date_time_t::from(stream);
     stream.ignore(4); // skip milliseconds
 
     std::string log_level;

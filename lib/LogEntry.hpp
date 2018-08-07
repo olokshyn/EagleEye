@@ -19,7 +19,7 @@ namespace EagleEye
 struct LogEntry
 {
     LogLevel level;
-    utils::date_time_t date_time;
+    utils::date_time_t date_time = utils::date_time_t::empty();
     std::string message;
 };
 

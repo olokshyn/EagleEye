@@ -34,11 +34,30 @@ std::string concat_strs(Args... args)
     return stream.str();
 }
 
-typedef std::chrono::time_point<std::chrono::system_clock> date_time_t;
-std::string date_time_to_string(const date_time_t& date_time);
-date_time_t date_time_from_stream(std::stringstream& stream);
-date_time_t date_time_from_string(const std::string& str);
-std::ostream& operator<<(std::ostream& stream, const utils::date_time_t& date_time);
+// Creation of date_time_t objects on heap is prohibited.
+class date_time_t : public std::chrono::system_clock::time_point
+{
+public:
+    static date_time_t empty();
+    static date_time_t from(std::istream& stream);
+    static date_time_t from(const std::string& str);
+
+    static void set_format(const char* format);
+
+public:
+    std::string to_string() const;
+
+private:
+    static const char* s_format;
+
+private:
+    date_time_t() = default;
+    explicit date_time_t(const std::chrono::system_clock::time_point& date_time);
+};
+
+std::ostream& operator<<(std::ostream& stream, const date_time_t& date_time);
+bool operator==(const date_time_t& date_time, const std::string& str);
+bool operator==(const std::string& str, const date_time_t& date_time);
 
 }
 
