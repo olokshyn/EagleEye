@@ -24,19 +24,19 @@ log_filter_t EagleEye::filters::by_level_exact(LogLevel level)
     };
 }
 
-log_filter_t EagleEye::filters::by_date_ge(const LogEntry::date_t& date)
+log_filter_t EagleEye::filters::by_date_time_ge(const utils::date_time_t& date_time)
 {
-    return [date](const LogEntry& entry) -> bool
+    return [date_time](const LogEntry& entry) -> bool
     {
-        return entry.date >= date;
+        return entry.date_time >= date_time;
     };
 }
 
-log_filter_t EagleEye::filters::by_date_le(const LogEntry::date_t& date)
+log_filter_t EagleEye::filters::by_date_time_le(const utils::date_time_t& date_time)
 {
-    return [date](const LogEntry& entry) -> bool
+    return [date_time](const LogEntry& entry) -> bool
     {
-        return entry.date <= date;
+        return entry.date_time <= date_time;
     };
 }
 

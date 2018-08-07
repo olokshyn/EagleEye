@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "LogsManager.hpp"
+#include "LogsParser.hpp"
 #include "parsers/PythonFormatParser.hpp"
 
 using namespace EagleEye;
@@ -16,7 +17,7 @@ int main()
                 "2018-06-16 09:48:26,389 WARNING  This is warning message, shit happened here\n";
 
         std::stringstream stream(test_input);
-        LogsManager manager(stream, PythonFormatParser());
+        LogsManager manager(parser::parse_logs(stream, PythonFormatParser()));
         std::cout << manager << std::endl;
 
         std::cout << manager.filtered(filters::by_level(LogLevel::warning)) << std::endl;

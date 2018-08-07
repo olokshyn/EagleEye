@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <iomanip>
 
-#include "utils.hpp"
+#include "Utils.hpp"
 
 using namespace EagleEye;
 

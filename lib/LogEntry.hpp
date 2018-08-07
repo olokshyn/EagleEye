@@ -11,15 +11,15 @@
 
 #include "LogLevel.hpp"
 
+#include "Utils.hpp"
+
 namespace EagleEye
 {
 
 struct LogEntry
 {
-    typedef std::chrono::time_point<std::chrono::system_clock> date_t;
-
     LogLevel level;
-    date_t date;
+    utils::date_time_t date_time;
     std::string message;
 };
 

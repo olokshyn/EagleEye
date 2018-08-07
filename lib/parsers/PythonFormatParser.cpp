@@ -4,11 +4,9 @@
 
 #include "PythonFormatParser.hpp"
 
-#include <ctime>
-#include <iomanip>
 #include <sstream>
 
-#include "utils.hpp"
+#include "Utils.hpp"
 
 using namespace EagleEye;
 
@@ -18,12 +16,7 @@ LogEntry PythonFormatParser::parse_line(const std::string& line,
     LogEntry entry;
 
     std::stringstream stream(line);
-    std::tm tm = {};
-    if (!(stream >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S")))
-    {
-        throw std::runtime_error(utils::concat_strs("Failed to parse date-time: ", line));
-    }
-    entry.date = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+    entry.date_time = utils::date_time_from_stream(stream);
     stream.ignore(4); // skip milliseconds
 
     std::string log_level;

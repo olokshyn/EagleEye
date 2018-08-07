@@ -10,20 +10,8 @@
 
 using namespace EagleEye;
 
-LogsManager::LogsManager(std::istream& in, const EagleEye::IFormatParser& format_parser,
-                         const log_level_parser_t& log_level_parser, size_t log_entries_hint)
-{
-    m_entries.reserve(log_entries_hint);
-
-    std::string line;
-    while (std::getline(in, line))
-    {
-        m_entries.push_back(format_parser.parse_line(line, log_level_parser));
-    }
-}
-
 LogsManager::LogsManager(std::vector<EagleEye::LogEntry>&& entries)
-    : m_entries(std::move(entries))
+        : m_entries(std::move(entries))
 {
 
 }

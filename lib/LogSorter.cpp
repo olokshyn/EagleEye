@@ -12,10 +12,10 @@ EagleEye::sorters::log_sorter_t EagleEye::sorters::by_level(bool ascending)
     };
 }
 
-EagleEye::sorters::log_sorter_t EagleEye::sorters::by_date(bool ascending)
+EagleEye::sorters::log_sorter_t EagleEye::sorters::by_date_time(bool ascending)
 {
     return [ascending](const LogEntry& left, const LogEntry& right) -> bool
     {
-        return ascending ? left.date < right.date : left.date > right.date;
+        return ascending ? left.date_time < right.date_time : left.date_time > right.date_time;
     };
 }

@@ -18,10 +18,6 @@ namespace EagleEye
 class LogsManager
 {
 public:
-    LogsManager(std::istream& in,
-                const IFormatParser& format_parser,
-                const log_level_parser_t& log_level_parser = default_log_level_parser,
-                size_t log_entries_hint = 0);
     explicit LogsManager(std::vector<LogEntry>&& entries);
 
     LogsManager(const LogsManager& other) = default;
