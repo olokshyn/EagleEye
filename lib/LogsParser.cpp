@@ -18,7 +18,14 @@ std::vector<LogEntry> parser::parse_logs(
     std::string line;
     while (std::getline(in, line))
     {
-        entries.push_back(format_parser.parse_line(line, log_level_parser));
+        try
+        {
+            entries.push_back(format_parser.parse_line(line, log_level_parser));
+        }
+        catch (const std::exception& exc)
+        {
+            std::cerr << "Failed to parse line: " << line << " " << exc.what() << std::endl;
+        }
     }
     return entries;
 }

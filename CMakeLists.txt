@@ -10,3 +10,8 @@ include_directories(lib)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Lib)
+
+add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${PROJECT_NAME}Tests)

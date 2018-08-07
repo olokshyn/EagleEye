@@ -26,10 +26,8 @@ LogEntry PythonFormatParser::parse_line(const std::string& line,
     }
     entry.level = log_level_parser(log_level);
 
-    if (!std::getline(stream >> std::ws, entry.message))
-    {
-        throw std::runtime_error(utils::concat_strs("Failed to parse message: ", line));
-    }
+    // ignore errors: the log may have empty message
+    std::getline(stream >> std::ws, entry.message);
 
     return entry;
 }
