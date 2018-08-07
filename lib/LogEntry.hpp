@@ -16,8 +16,10 @@ namespace EagleEye
 
 struct LogEntry
 {
+    typedef std::chrono::time_point<std::chrono::system_clock> date_t;
+
     LogLevel level;
-    std::chrono::time_point<std::chrono::system_clock> date;
+    date_t date;
     std::string message;
 };
 
