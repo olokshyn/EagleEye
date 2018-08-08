@@ -10,4 +10,5 @@ file(GLOB TEST_SOURCES
         *.cpp)
 add_executable(${PROJECT_NAME}
         ${TEST_SOURCES})
+add_dependencies(${PROJECT_NAME} gtest_main)
 target_link_libraries(${PROJECT_NAME} gtest_main EagleEyeLib)

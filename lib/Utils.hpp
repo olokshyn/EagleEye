@@ -35,6 +35,7 @@ std::string concat_strs(Args... args)
 
 std::vector<std::string> files_in_dir(const std::string& dirpath);
 std::string file_basename(const std::string& path);
+bool is_dir(const std::string& dirname);
 
 }
 

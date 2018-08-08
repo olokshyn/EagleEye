@@ -4,6 +4,8 @@
 
 #include "Utils.hpp"
 
+#include <sys/stat.h>
+
 #include <dirent.h>
 #include <string.h>
 
@@ -65,3 +67,13 @@ std::string utils::file_basename(const std::string& path)
     return path.substr(pos + 1);
 }
 
+bool utils::is_dir(const std::string& dirname)
+{
+    // FIXME: replace this crap with std::filesystem
+    struct stat st = {};
+    if (stat(dirname.c_str(), &st) == 0)
+    {
+        return static_cast<bool>(st.st_mode & S_IFDIR);
+    }
+    throw std::system_error();
+}

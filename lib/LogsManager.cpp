@@ -21,14 +21,11 @@ const std::vector<LogEntry>& LogsManager::entries() const
     return m_entries;
 }
 
-std::vector<LogEntry>&& LogsManager::move_entries()
-{
-    return std::move(m_entries);
-}
-
 void LogsManager::filter(const filters::log_filter_t& filter)
 {
-    m_entries.erase(std::remove_if(m_entries.begin(), m_entries.end(), filter),
+    m_entries.erase(std::remove_if(m_entries.begin(),
+                                   m_entries.end(),
+                                   std::not_fn(filter)),
                     m_entries.end());
 }
 

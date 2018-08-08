@@ -10,10 +10,15 @@ add_subdirectory(cli)
 
 include_directories(lib)
 
-add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Lib)
+add_dependencies(${PROJECT_NAME}Tests ${PROJECT_NAME}Lib)
+add_dependencies(${PROJECT_NAME}CLI ${PROJECT_NAME}Lib)
 
-add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${PROJECT_NAME}Tests)
+add_custom_target(Tests
+        ${PROJECT_NAME}Tests
+        DEPENDS ${PROJECT_NAME}Lib
+        DEPENDS ${PROJECT_NAME}Tests)
+
+add_custom_target(EagleEye
+        mv cli/${PROJECT_NAME}CLI ${PROJECT_NAME}
+        DEPENDS ${PROJECT_NAME}CLI
+        DEPENDS Tests)

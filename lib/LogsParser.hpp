@@ -19,6 +19,15 @@ std::vector<LogEntry> parse_logs(std::istream& in,
                                  const IFormatParser& format_parser,
                                  size_t log_entries_hint = 0);
 
+std::vector<LogEntry> parse_logs(const std::string& filename,
+                                 const IFormatParser& format_parser);
+
+std::vector<LogEntry> parse_logs(const std::vector<std::string>& filenames,
+                                 const IFormatParser& format_parser);
+
+std::vector<LogEntry> parse_logs_dir(const std::string& dirname,
+                                     const IFormatParser& format_parser);
+
 }
 
 

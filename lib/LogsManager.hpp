@@ -27,7 +27,6 @@ public:
     LogsManager& operator=(LogsManager&& other) = default;
 
     const std::vector<LogEntry>& entries() const;
-    std::vector<LogEntry>&& move_entries();
 
     void filter(const filters::log_filter_t& filter);
     LogsManager filtered(const filters::log_filter_t& filter) const;
