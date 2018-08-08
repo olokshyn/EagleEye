@@ -10,8 +10,7 @@
 
 using namespace EagleEye;
 
-LogEntry PythonFormatParser::parse_line(const std::string& line,
-                                        const log_level_parser_t& log_level_parser) const
+LogEntry PythonFormatParser::parse_line(const std::string& line) const
 {
     LogEntry entry;
 
@@ -24,7 +23,7 @@ LogEntry PythonFormatParser::parse_line(const std::string& line,
     {
         throw std::runtime_error(utils::concat_strs("Failed to parse log level: ", line));
     }
-    entry.level = log_level_parser(log_level);
+    entry.level = get_log_level_parser()(log_level);
 
     // ignore errors: the log may have empty message
     std::getline(stream >> std::ws, entry.message);

@@ -17,7 +17,6 @@ namespace EagleEye::parser
 
 std::vector<LogEntry> parse_logs(std::istream& in,
                                  const IFormatParser& format_parser,
-                                 const log_level_parser_t& log_level_parser = default_log_level_parser,
                                  size_t log_entries_hint = 0);
 
 }

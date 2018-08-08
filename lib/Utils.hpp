@@ -7,6 +7,7 @@
 
 #include <string>
 #include <sstream>
+#include <vector>
 
 namespace EagleEye::utils
 {
@@ -31,6 +32,9 @@ std::string concat_strs(Args... args)
     _concat_strs(stream, args...);
     return stream.str();
 }
+
+std::vector<std::string> files_in_dir(const std::string& dirpath);
+std::string file_basename(const std::string& path);
 
 }
 

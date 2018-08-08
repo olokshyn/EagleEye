@@ -13,8 +13,7 @@ namespace EagleEye
 class PythonFormatParser : public IFormatParser
 {
 public:
-    LogEntry parse_line(const std::string& line,
-                        const log_level_parser_t& log_level_parser) const override;
+    LogEntry parse_line(const std::string& line) const override;
 };
 
 }
