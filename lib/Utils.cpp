@@ -33,7 +33,8 @@ std::vector<std::string> utils::files_in_dir(const std::string& dirpath)
     struct dirent *ent;
     if ((dir = opendir(dirpath.c_str())))
     {
-        std::unique_ptr<DIR, decltype(&closedir)> dir_guard(dir, &closedir);
+        auto destructor = [](DIR* dir) { closedir(dir); };
+        std::unique_ptr<DIR, decltype(destructor)> dir_guard(dir, destructor);
         while ((ent = readdir(dir)))
         {
             if (ent->d_type == DT_REG)

@@ -9,6 +9,7 @@
 
 #include "LogEntry.hpp"
 #include "LogLevel.hpp"
+#include "DateTime.hpp"
 
 namespace EagleEye
 {
@@ -20,8 +21,9 @@ public:
 
     virtual LogEntry parse_line(const std::string& line) const = 0;
 
-protected:
-    virtual log_level_parser_t get_log_level_parser() const;
+    virtual LogLevel parse_log_level(const std::string& str) const;
+    virtual date_time::date_time_t parse_date_time(std::istream& stream) const;
+    virtual date_time::date_time_t parse_date_time(const std::string& str) const;
 };
 
 }

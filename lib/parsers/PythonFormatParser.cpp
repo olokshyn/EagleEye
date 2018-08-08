@@ -15,7 +15,7 @@ LogEntry PythonFormatParser::parse_line(const std::string& line) const
     LogEntry entry;
 
     std::stringstream stream(line);
-    entry.date_time = date_time::from(stream);
+    entry.date_time = parse_date_time(stream);
     stream.ignore(4); // skip milliseconds
 
     std::string log_level;
@@ -23,7 +23,7 @@ LogEntry PythonFormatParser::parse_line(const std::string& line) const
     {
         throw std::runtime_error(utils::concat_strs("Failed to parse log level: ", line));
     }
-    entry.level = get_log_level_parser()(log_level);
+    entry.level = parse_log_level(log_level);
 
     // ignore errors: the log may have empty message
     std::getline(stream >> std::ws, entry.message);

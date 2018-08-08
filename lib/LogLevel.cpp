@@ -15,7 +15,7 @@
 
 using namespace EagleEye;
 
-LogLevel EagleEye::default_log_level_parser(std::string level)
+LogLevel EagleEye::log_level_parser(std::string level)
 {
     static const std::unordered_map<std::string, LogLevel> s_level_names_map = {
             {"verbose", LogLevel::verbose},

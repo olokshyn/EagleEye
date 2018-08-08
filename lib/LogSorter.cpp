@@ -4,18 +4,31 @@
 
 #include "LogSorter.hpp"
 
-EagleEye::sorters::log_sorter_t EagleEye::sorters::by_level(bool ascending)
-{
-    return [ascending](const LogEntry& left, const LogEntry& right) -> bool
-    {
-        return ascending ? left.level < right.level : left.level > right.level;
-    };
-}
+using namespace EagleEye;
+using namespace EagleEye::sorters;
 
-EagleEye::sorters::log_sorter_t EagleEye::sorters::by_date_time(bool ascending)
+log_sorter_t sorters::build_log_sorter(LogEntryColumn column, bool ascending)
 {
-    return [ascending](const LogEntry& left, const LogEntry& right) -> bool
+    switch (column)
     {
-        return ascending ? left.date_time < right.date_time : left.date_time > right.date_time;
-    };
+    case LogEntryColumn::log_level:
+        return [ascending](const LogEntry& left, const LogEntry& right) -> bool
+        {
+            return ascending ? left.level < right.level : left.level > right.level;
+        };
+
+    case LogEntryColumn::date_time:
+        return [ascending](const LogEntry& left, const LogEntry& right) -> bool
+        {
+            return ascending ? left.date_time < right.date_time : left.date_time > right.date_time;
+        };
+
+    case LogEntryColumn::message:
+        return [ascending](const LogEntry& left, const LogEntry& right) -> bool
+        {
+            return ascending ? left.message < right.message : left.message > right.message;
+        };
+    }
+
+    throw std::runtime_error("Failed to build sorter");
 }

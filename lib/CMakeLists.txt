@@ -8,5 +8,7 @@ file(GLOB LIB_SOURCES
         *.cpp
         *.hpp
         parsers/*.cpp
-        parsers/*.hpp)
+        parsers/*.hpp
+        actions/*.cpp
+        actions/*.hpp)
 add_library(${PROJECT_NAME} ${LIB_SOURCES})

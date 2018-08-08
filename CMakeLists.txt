@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 project(EagleEye)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-unused-variable")
 
 add_subdirectory(lib)
 add_subdirectory(tests)
+add_subdirectory(cli)
 
 include_directories(lib)
 

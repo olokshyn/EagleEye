@@ -14,9 +14,7 @@ namespace EagleEye::sorters
 
 typedef std::function<bool(const LogEntry&, const LogEntry&)> log_sorter_t;
 
-log_sorter_t by_level(bool ascending = false);
-
-log_sorter_t by_date_time(bool ascending = true);
+log_sorter_t build_log_sorter(LogEntryColumn column, bool ascending = true);
 
 }
 

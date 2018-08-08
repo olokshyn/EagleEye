@@ -5,25 +5,35 @@
 #ifndef EAGLEEYE_LOGFILTER_HPP
 #define EAGLEEYE_LOGFILTER_HPP
 
+#include <sstream>
 #include <functional>
 
 #include "LogEntry.hpp"
 #include "LogLevel.hpp"
+#include "IFormatParser.hpp"
 
 namespace EagleEye::filters
 {
 
 typedef std::function<bool(const LogEntry&)> log_filter_t;
 
-log_filter_t by_level(LogLevel level);
+enum class Relation
+{
+    less,
+    less_eq,
+    equal,
+    greater_eq,
+    greater
+};
 
-log_filter_t by_level_exact(LogLevel level);
+Relation parse_relation(std::istream& stream);
 
-log_filter_t by_date_time_ge(const date_time::date_time_t& date_time);
+log_filter_t build_filter(LogEntryColumn column,
+                          Relation relation,
+                          const std::string& data,
+                          const IFormatParser& format_parser);
 
-log_filter_t by_date_time_le(const date_time::date_time_t& date_time);
-
-log_filter_t by_message(const std::string& rexp);
+log_filter_t build_message_filter(const std::string& rexp);
 
 }
 

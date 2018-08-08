@@ -21,9 +21,7 @@ enum class LogLevel
     error
 };
 
-typedef std::function<LogLevel(const std::string&)> log_level_parser_t;
-
-LogLevel default_log_level_parser(std::string level);
+LogLevel log_level_parser(std::string level);
 
 std::ostream& operator<<(std::ostream& stream, LogLevel level);
 

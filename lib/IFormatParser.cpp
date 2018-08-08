@@ -6,7 +6,17 @@
 
 using namespace EagleEye;
 
-log_level_parser_t IFormatParser::get_log_level_parser() const
+LogLevel IFormatParser::parse_log_level(const std::string& str) const
 {
-    return default_log_level_parser;
+    return log_level_parser(str);
+}
+
+date_time::date_time_t IFormatParser::parse_date_time(std::istream& stream) const
+{
+    return date_time::from(stream);
+}
+
+date_time::date_time_t IFormatParser::parse_date_time(const std::string& str) const
+{
+    return date_time::from(str);
 }
