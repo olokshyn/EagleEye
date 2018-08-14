@@ -22,11 +22,12 @@ enum class Relation
     less,
     less_eq,
     equal,
+    not_equal,
     greater_eq,
     greater
 };
 
-Relation parse_relation(std::istream& stream);
+Relation get_relation(const std::string& relation_name);
 
 log_filter_t build_filter(LogEntryColumn column,
                           Relation relation,

@@ -7,7 +7,6 @@
 
 #include <iosfwd>
 #include <memory>
-#include <list>
 
 #include "IAction.hpp"
 #include "IFormatParser.hpp"
@@ -15,8 +14,8 @@
 namespace EagleEye::actions
 {
 
-std::list<std::unique_ptr<IAction>> parse_actions(std::istream& stream,
-                                                  const IFormatParser& format_parser);
+std::unique_ptr<IAction> parse_action(const std::vector<std::string>& tokens,
+                                      const IFormatParser& format_parser);
 
 }
 

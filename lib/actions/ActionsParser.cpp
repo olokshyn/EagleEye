@@ -21,40 +21,42 @@ using namespace EagleEye::actions;
 namespace
 {
 
-std::unique_ptr<IAction> parse_filter_action(std::istream& stream,
+std::unique_ptr<IAction> parse_filter_action(const std::vector<std::string>& tokens,
                                              const IFormatParser& format_parser)
 {
-    std::string column_name;
-    stream >> column_name;
-    LogEntryColumn column = LogEntry::get_column_by_name(column_name);
-    filters::Relation relation = filters::parse_relation(stream);
-    std::string data;
-    stream >> data;
+    if (tokens.size() != 4)
+    {
+        throw std::runtime_error("Invalid tokens: 4 tokens is needed for filter action");
+    }
+
+    LogEntryColumn column = LogEntry::get_column_by_name(tokens[1]);
+    filters::Relation relation = filters::get_relation(tokens[2]);
 
     return std::make_unique<FilteringAction>(
-            filters::build_filter(column, relation, data, format_parser));
+            filters::build_filter(column, relation, tokens[3], format_parser));
 }
 
-std::unique_ptr<IAction> parse_sort_action(std::istream& stream,
+std::unique_ptr<IAction> parse_sort_action(const std::vector<std::string>& tokens,
                                            const IFormatParser& format_parser)
 {
-    std::string column_name;
-    stream >> column_name;
-    LogEntryColumn column = LogEntry::get_column_by_name(column_name);
-    std::string order;
-    stream >> order;
+    if (tokens.size() != 3)
+    {
+        throw std::runtime_error("Invalid tokens: 3 tokens is needed for sorting action");
+    }
+
+    LogEntryColumn column = LogEntry::get_column_by_name(tokens[1]);
     bool ascending;
-    if (order == "asc")
+    if (tokens[2] == "asc")
     {
         ascending = true;
     }
-    else if (order == "desc")
+    else if (tokens[2] == "desc")
     {
         ascending = false;
     }
     else
     {
-        throw std::runtime_error(utils::concat_strs("Failed to parse sorting order: ", order));
+        throw std::runtime_error(utils::concat_strs("Failed to parse sorting order: ", tokens[2]));
     }
 
     return std::make_unique<SortingAciton>(sorters::build_log_sorter(column, ascending));
@@ -62,30 +64,24 @@ std::unique_ptr<IAction> parse_sort_action(std::istream& stream,
 
 }
 
-std::list<std::unique_ptr<IAction>> actions::parse_actions(std::istream& stream,
-                                                           const IFormatParser& format_parser)
+std::unique_ptr<IAction> actions::parse_action(const std::vector<std::string>& tokens,
+                                               const IFormatParser& format_parser)
 {
-    std::list<std::unique_ptr<IAction>> actions;
-    std::string action;
-    while (std::getline(stream, action, ','))
+    if (tokens.empty())
     {
-        std::stringstream action_stream(action);
-        action_stream.exceptions(std::istream::failbit | std::istream::badbit);
-        std::string action_type;
-        action_stream >> action_type;
-        if (action_type == "filter")
-        {
-            actions.push_back(parse_filter_action(action_stream, format_parser));
-        }
-        else if (action_type == "sort")
-        {
-            actions.push_back(parse_sort_action(action_stream, format_parser));
-        }
-        else
-        {
-            throw std::runtime_error(
-                    utils::concat_strs("Failed to parse action, unknown type: ", action));
-        }
+        throw std::runtime_error("Invalid tokens");
     }
-    return actions;
+    if (tokens[0] == "filter")
+    {
+        return parse_filter_action(tokens, format_parser);
+    }
+    else if (tokens[0] == "sort")
+    {
+        return parse_sort_action(tokens, format_parser);
+    }
+    else
+    {
+        throw std::runtime_error(
+                utils::concat_strs("Failed to parse action, unknown type: ", tokens[0]));
+    }
 }

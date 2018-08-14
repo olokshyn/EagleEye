@@ -37,6 +37,9 @@ std::vector<std::string> files_in_dir(const std::string& dirpath);
 std::string file_basename(const std::string& path);
 bool is_dir(const std::string& dirname);
 
+std::istream& read_united_line(std::istream& stream, std::string& line);
+std::istream& read_words(std::istream& stream, std::vector<std::string>& words);
+
 }
 
 #endif //EAGLEEYE_UTILS_HPP

@@ -12,23 +12,23 @@
 using namespace EagleEye;
 using namespace EagleEye::filters;
 
-Relation filters::parse_relation(std::istream& stream)
+Relation filters::get_relation(const std::string& relation_name)
 {
     static const std::unordered_map<std::string, Relation> s_map = {
             {"<", Relation::less},
             {"<=", Relation::less_eq},
             {"==", Relation::equal},
+            {"!=", Relation::not_equal},
             {">=", Relation::greater_eq},
             {">", Relation::greater}
     };
 
-    std::string relation;
-    stream >> relation;
-    auto iter = s_map.find(relation);
+    auto iter = s_map.find(relation_name);
     if (iter == s_map.end())
     {
         throw std::runtime_error(
-                utils::concat_strs("Failed to parse filter action: unknown operation: ", relation));
+                utils::concat_strs("Failed to parse filter action: unknown operation: ",
+                                   relation_name));
     }
     return iter->second;
 }
@@ -59,6 +59,11 @@ log_filter_t filters::build_filter(LogEntryColumn column,
             return [level](const LogEntry& entry) -> bool
             {
                 return entry.level == level;
+            };
+        case Relation::not_equal:
+            return [level](const LogEntry& entry) -> bool
+            {
+                return entry.level != level;
             };
         case Relation::greater_eq:
             return [level](const LogEntry& entry) -> bool
@@ -94,6 +99,11 @@ log_filter_t filters::build_filter(LogEntryColumn column,
             {
                 return entry.date_time == date_time;
             };
+        case Relation::not_equal:
+            return [date_time](const LogEntry& entry) -> bool
+            {
+                return entry.date_time != date_time;
+            };
         case Relation::greater_eq:
             return [date_time](const LogEntry& entry) -> bool
             {
@@ -109,7 +119,15 @@ log_filter_t filters::build_filter(LogEntryColumn column,
     }
 
     case LogEntryColumn::message:
-        return build_message_filter(data);
+        switch (relation)
+        {
+        case Relation::equal:
+            return build_message_filter(data);
+        case Relation::not_equal:
+            return std::not_fn(build_message_filter(data));
+        default:
+            throw std::runtime_error("Only == and != are supported for message column");
+        }
     }
 
     throw std::runtime_error("Failed to build filter");

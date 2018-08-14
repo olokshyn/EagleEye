@@ -77,3 +77,75 @@ bool utils::is_dir(const std::string& dirname)
     }
     throw std::system_error();
 }
+
+std::istream& utils::read_united_line(std::istream& stream, std::string& line)
+{
+    std::stringstream united_stream;
+    bool next_line_needed = true;
+    size_t quotations_count = 0;
+    size_t united_line_size = 0;
+
+    std::string curr_line;
+    while (next_line_needed && std::getline(stream, curr_line))
+    {
+        united_stream << curr_line;
+        quotations_count += std::count(curr_line.begin(), curr_line.end(), '\'');
+        united_line_size += curr_line.size();
+        if (!curr_line.empty() && curr_line.back() == '\\')
+        {
+            --united_line_size;
+        }
+        next_line_needed = curr_line.empty() || quotations_count % 2 || curr_line.back() == '\\';
+    }
+
+    line.clear();
+    line.reserve(united_line_size);
+    std::copy_if(std::istreambuf_iterator<char>(united_stream),
+                 std::istreambuf_iterator<char>(),
+                 std::back_inserter(line),
+                 [](auto symbol) -> bool { return symbol != '\\'; });
+    return stream;
+}
+
+std::istream& utils::read_words(std::istream& stream, std::vector<std::string>& words)
+{
+    std::string line;
+    if (!(read_united_line(stream, line)))
+    {
+        return stream;
+    }
+
+    bool inside_quotations = false;
+    size_t start = 0;
+    while (start != std::string::npos)
+    {
+        size_t end = line.find('\'', start);
+
+        std::string token(line.substr(start, end - start));
+        if (inside_quotations)
+        {
+            words.push_back(token);
+        }
+        else
+        {
+            std::stringstream s_stream(token);
+            std::string word;
+            while (s_stream >> word)
+            {
+                words.push_back(word);
+            }
+        }
+
+        if (end != std::string::npos)
+        {
+            start = end + 1;
+        }
+        else
+        {
+            start = end;
+        }
+        inside_quotations = !inside_quotations;
+    }
+
+    return stream;
+}
